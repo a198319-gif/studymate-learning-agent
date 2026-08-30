@@ -1,0 +1,32 @@
+# Secrets and machine-local configuration
+**/.env
+**/.env.*
+!**/.env.example
+**/application-local.yml
+**/application-prod.yml
+**/vipCode.json
+
+# Dependencies and build output
+**/node_modules/
+**/.npm-cache/
+**/dist/
+**/target/
+**/.venv/
+**/__pycache__/
+
+# IDE and operating-system files
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/Thumbs.db
+
+# Local databases, uploads and generated data
+**/.local-data/
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+**/scg_picture.sql
+**/AI.txt
+
+# Temporary packaging files
+tmp/

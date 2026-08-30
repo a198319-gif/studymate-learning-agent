@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/scg_picture}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:change-me}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+cos:
+  client:
+    host: ${COS_HOST:https://example.com}
+    secretId: ${COS_SECRET_ID:change-me}
+    secretKey: ${COS_SECRET_KEY:change-me}
+    region: ${COS_REGION:change-me}
+    bucket: ${COS_BUCKET:change-me}
+
+aliYunAi:
+  apiKey: ${ALIYUN_AI_API_KEY:change-me}
+

@@ -1,0 +1,2 @@
+package.json中点击openapi运行 可用根据接口文档生成controller 接口文档是用的knife4j在openapi.config.js配置的
+运行npm run dev 

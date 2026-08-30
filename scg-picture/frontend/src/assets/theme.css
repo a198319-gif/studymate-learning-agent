@@ -1,0 +1,143 @@
+:root {
+  color-scheme: dark;
+  --scg-bg: #061426;
+  --scg-surface: #0b1d33;
+  --scg-surface-strong: #10243c;
+  --scg-surface-soft: rgba(16, 36, 60, 0.72);
+  --scg-border: rgba(148, 163, 184, 0.18);
+  --scg-border-strong: rgba(94, 234, 212, 0.28);
+  --scg-text: #e8f2ff;
+  --scg-text-muted: #90a4bd;
+  --scg-accent: #22d3c5;
+  --scg-accent-soft: rgba(34, 211, 197, 0.12);
+  --scg-shadow: 0 18px 50px rgba(0, 5, 18, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--scg-bg);
+  color: var(--scg-text);
+  font-family: Inter, 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: #67e8f9;
+}
+
+::selection {
+  background: rgba(34, 211, 197, 0.32);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #29435e;
+  border: 2px solid #07172a;
+  border-radius: 999px;
+}
+
+.ant-btn,
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker,
+.ant-input-number,
+.ant-card,
+.ant-modal-content,
+.ant-dropdown-menu,
+.ant-table-container {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.ant-btn-primary {
+  color: #04231f;
+  font-weight: 650;
+}
+
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused,
+.ant-select-focused .ant-select-selector,
+.ant-picker-focused,
+.ant-input-number-focused {
+  box-shadow: 0 0 0 3px rgba(34, 211, 197, 0.12) !important;
+}
+
+.ant-card,
+.ant-collapse,
+.ant-descriptions-view {
+  overflow: hidden;
+  border-color: var(--scg-border) !important;
+}
+
+.ant-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-color: var(--scg-border) !important;
+}
+
+.ant-table-wrapper .ant-table,
+.ant-table-wrapper .ant-table-container,
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background: var(--scg-surface) !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-color: var(--scg-border) !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: rgba(34, 211, 197, 0.06) !important;
+}
+
+.ant-pagination {
+  display: flex;
+  justify-content: center;
+  padding: 18px 0 2px;
+}
+
+.ant-pagination .ant-pagination-item,
+.ant-pagination .ant-pagination-prev,
+.ant-pagination .ant-pagination-next {
+  border-color: var(--scg-border);
+  background: var(--scg-surface-strong);
+}
+
+.ant-pagination .ant-pagination-item-active {
+  border-color: var(--scg-accent);
+  box-shadow: 0 0 0 2px rgba(34, 211, 197, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

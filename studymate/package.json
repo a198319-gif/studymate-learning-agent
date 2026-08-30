@@ -1,0 +1,17 @@
+{
+  "name": "studymate",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/python-backend.mjs build && npm --prefix client run build",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "node scripts/python-backend.mjs dev",
+    "lint": "node scripts/python-backend.mjs lint && npm --prefix client run lint",
+    "local:build": "npm --prefix client run build && node scripts/python-backend.mjs build",
+    "local:check:deepseek": "node scripts/live-local-check.mjs",
+    "local": "node scripts/python-backend.mjs local",
+    "db:migrate": "node scripts/python-backend.mjs migrate",
+    "test": "node scripts/python-backend.mjs test && npm --prefix client run test",
+    "typecheck": "node scripts/python-backend.mjs typecheck && npm --prefix client run typecheck"
+  }
+}

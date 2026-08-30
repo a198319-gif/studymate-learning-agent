@@ -1,0 +1,1 @@
+"""StudyMate Python backend package."""

@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String             @id @default(cuid())
+  name             String
+  email            String             @unique
+  passwordHash     String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  materials        Material[]
+  jobs             ProcessingJob[]
+  conversations    Conversation[]
+  generatedContent GeneratedContent[]
+  quizzes          Quiz[]
+
+  @@map("users")
+}
+
+enum MaterialStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum ProcessingStage {
+  QUEUED
+  EXTRACTING
+  CHUNKING
+  EMBEDDING
+  INDEXING
+  COMPLETE
+  FAILED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+enum GroundingStatus {
+  GROUNDED
+  INSUFFICIENT
+  NOT_APPLICABLE
+}
+
+enum GeneratedContentType {
+  SUMMARY
+  KEY_POINTS
+  QUIZ
+  EXAM_REVIEW
+}
+
+enum QuizQuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  SHORT_ANSWER
+}
+
+model Material {
+  id              String         @id @default(cuid())
+  userId          String
+  originalName    String
+  storedName      String
+  storagePath     String
+  mimeType        String
+  extension       String
+  size            Int
+  checksum        String
+  status          MaterialStatus @default(PROCESSING)
+  chunkCount      Int            @default(0)
+  processingError String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job             ProcessingJob?
+
+  @@index([userId, status, createdAt])
+  @@map("materials")
+}
+
+model ProcessingJob {
+  id          String          @id @default(cuid())
+  materialId  String          @unique
+  userId      String
+  stage       ProcessingStage @default(QUEUED)
+  attempts    Int             @default(0)
+  maxAttempts Int             @default(3)
+  lockedAt    DateTime?
+  lockedBy    String?
+  errorCode   String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  material    Material        @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([stage, lockedAt, createdAt])
+  @@index([userId])
+  @@map("processing_jobs")
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@index([userId, updatedAt])
+  @@map("conversations")
+}
+
+model Message {
+  id              String          @id @default(cuid())
+  conversationId  String
+  role            MessageRole
+  content         String          @db.LongText
+  sources         Json?
+  groundingStatus GroundingStatus
+  createdAt       DateTime        @default(now())
+  conversation    Conversation    @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
+
+model GeneratedContent {
+  id          String               @id @default(cuid())
+  userId      String
+  type        GeneratedContentType
+  title       String
+  materialIds Json
+  content     Json
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type, createdAt])
+  @@map("generated_content")
+}
+
+model Quiz {
+  id            String         @id @default(cuid())
+  userId        String
+  title         String
+  difficulty    String
+  questionCount Int
+  score         Int?
+  materialIds   Json
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions     QuizQuestion[]
+
+  @@index([userId, createdAt])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id              String           @id @default(cuid())
+  quizId          String
+  question        String           @db.Text
+  type            QuizQuestionType
+  options         Json?
+  correctAnswer   String
+  userAnswer      String?
+  explanation     String           @db.Text
+  sourceReference String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  quiz            Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+  @@map("quiz_questions")
+}
